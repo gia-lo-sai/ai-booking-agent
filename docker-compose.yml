@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: ai-booking-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-bookinguser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_DB: ${POSTGRES_DB:-booking_db}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - booking-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-bookinguser}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: ai-booking-backend
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_URL: postgresql://${POSTGRES_USER:-bookinguser}:${POSTGRES_PASSWORD:-changeme}@postgres:5432/${POSTGRES_DB:-booking_db}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      BUSINESS_NAME: ${BUSINESS_NAME:-La Tua Azienda}
+      BUSINESS_HOURS_START: ${BUSINESS_HOURS_START:-09:00}
+      BUSINESS_HOURS_END: ${BUSINESS_HOURS_END:-18:00}
+      APPOINTMENT_DURATION: ${APPOINTMENT_DURATION:-30}
+      FRONTEND_URL: http://frontend
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - booking-network
+    restart: unless-stopped
+
+  # Frontend Web App
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: ai-booking-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - booking-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  booking-network:
+    driver: bridge

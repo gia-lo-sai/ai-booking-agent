@@ -1,0 +1,56 @@
+# Dipendenze
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build files
+dist/
+build/
+*.tgz
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Chiavi SSH
+*.pem
+*.key
+id_rsa
+id_rsa.pub
+*.pub
+fish1
+fish1.pub
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Docker
+.dockerignore
+
+# Backup files
+*.bak
+*.backup

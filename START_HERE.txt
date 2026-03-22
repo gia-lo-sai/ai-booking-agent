@@ -1,0 +1,116 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║          🤖 AI BOOKING AGENT - QUICK START                   ║
+║          Progetto: ai-booking-agent                          ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+📱 SETUP RAPIDO SU TERMUX
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣  Inizializza progetto:
+    bash scripts/init.sh
+
+2️⃣  Oppure step-by-step:
+    bash scripts/setup-hcloud.sh
+    cp .env.example .env
+    nano .env  # Aggiungi HCLOUD_TOKEN e ANTHROPIC_API_KEY
+
+3️⃣  Deploy su hcloud:
+    npm run deploy
+
+4️⃣  Accedi all'app:
+    http://YOUR_SERVER_IP
+
+
+🔑 CREDENZIALI NECESSARIE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Hetzner Cloud Token:
+→ https://console.hetzner.cloud
+→ Security → API Tokens → Generate
+
+Anthropic Claude API:
+→ https://console.anthropic.com
+→ API Keys → Create Key
+
+
+📋 COMANDI PRINCIPALI
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Verifica stato:     npm run hcloud:status
+Deploy:             npm run deploy
+Logs:               npm run hcloud:logs
+SSH:                npm run hcloud:ssh
+Restart:            npm run hcloud:restart
+Backup DB:          npm run hcloud:backup
+Help:               bash scripts/helper.sh help
+
+
+📚 DOCUMENTAZIONE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+README.md           - Documentazione completa
+QUICKSTART.md       - Guida rapida generale  
+TERMUX-GUIDE.md     - Guida specifica Termux + hcloud
+hcloud.conf         - Configurazione hcloud
+
+
+🏗️ STRUTTURA PROGETTO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+backend/            - API Node.js + Express + Claude
+frontend/           - Web app React + Vite
+scripts/            - Script automation
+  ├── init.sh           - Inizializzazione completa
+  ├── setup-hcloud.sh   - Setup hcloud CLI
+  ├── check-status.sh   - Verifica stato
+  ├── deploy.sh         - Deploy automatico
+  └── helper.sh         - Comandi utility
+database/           - Schema PostgreSQL
+docker-compose.yml  - Orchestrazione servizi
+.env.example        - Template configurazione
+
+
+💡 TIPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+• Usa sempre "ai-booking-agent" come nome progetto
+• Il server type cx11 costa ~€4/mese su hcloud
+• Backup automatico: npm run hcloud:backup
+• Per sviluppo locale: npm run dev
+• Logs in tempo reale: npm run hcloud:logs
+
+
+🆘 TROUBLESHOOTING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+hcloud non trovato:
+    npm install -g @hetznercloud/cli
+
+Errore deploy:
+    bash scripts/check-status.sh
+    Verifica .env
+
+Database error:
+    npm run hcloud:ssh
+    cd /opt/ai-booking-agent
+    docker-compose logs postgres
+
+
+🎯 PROSSIMI PASSI
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Dopo il primo deploy:
+1. Testa la chat AI
+2. Crea appuntamento di test
+3. Personalizza BUSINESS_NAME in .env
+4. Setup HTTPS con Let's Encrypt
+5. Configura backup automatici
+6. Aggiungi notifiche email
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Sviluppato con ❤️ su Termux + hcloud
+Powered by Claude AI (Anthropic) + PostgreSQL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
