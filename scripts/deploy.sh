@@ -7,6 +7,11 @@ set -e
 
 echo "🚀 Inizio deployment su hcloud..."
 
+# Fix per Termux e fallback per Linux
+export TMPDIR="${TMPDIR:-$PREFIX/tmp}"
+mkdir -p "$TMPDIR"
+TAR_FILE="$TMPDIR/ai-booking-agent.tar.gz"
+
 # Colori per output
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -29,7 +34,7 @@ log_error() {
 # 1. Verifica hcloud CLI
 log_info "Verifica hcloud CLI..."
 if ! command -v hcloud &> /dev/null; then
-    log_error "hcloud CLI non trovato. Installalo con: npm install -g hcloud-cli"
+    log_error "hcloud CLI non trovato. Installalo con: npm install -g hcloud"
     exit 1
 fi
 
@@ -61,14 +66,14 @@ SERVER_EXISTS=$(hcloud server list -o noheader | grep -w "$SERVER_NAME" || true)
 
 if [ -z "$SERVER_EXISTS" ]; then
     log_info "Creazione nuovo server su hcloud..."
-    
+
     hcloud server create \
         --name "$SERVER_NAME" \
-        --type "${SERVER_TYPE:-cx11}" \
-        --image ubuntu-22.04 \
-        --ssh-key "${SSH_KEY_NAME:-default}" \
+        --type "${SERVER_TYPE:-cx23}" \
+        --image ubuntu-24.04 \
+        --ssh-key "${SSH_KEY_NAME:-luca@phone}" \
         --datacenter "${DATACENTER:-nbg1-dc3}"
-    
+
     log_info "Server creato! Attendo 30 secondi per l'inizializzazione..."
     sleep 30
 else
@@ -83,7 +88,7 @@ log_info "IP del server: $SERVER_IP"
 log_info "Copia file sul server..."
 
 # Crea tarball del progetto
-tar -czf /tmp/ai-booking-agent.tar.gz \
+tar -czf "$TAR_FILE" \
     --exclude=node_modules \
     --exclude=.git \
     --exclude=frontend/dist \
@@ -92,7 +97,7 @@ tar -czf /tmp/ai-booking-agent.tar.gz \
     .
 
 # Copia sul server
-scp -o StrictHostKeyChecking=no /tmp/ai-booking-agent.tar.gz root@$SERVER_IP:/tmp/
+scp -o StrictHostKeyChecking=no "$TAR_FILE" root@$SERVER_IP:/tmp/
 
 # 7. Setup sul server
 log_info "Configurazione server..."
@@ -139,7 +144,8 @@ log_info "  🌐 Frontend: http://$SERVER_IP"
 log_info "  🔧 Backend API: http://$SERVER_IP:3001/api/health"
 log_info ""
 log_info "Comandi utili:"
-log_info "  • Logs backend:  ssh root@$SERVER_IP 'cd /opt/ai-booking-agent && docker-compose logs -f backend'"
-log_info "  • Logs frontend: ssh root@$SERVER_IP 'cd /opt/ai-booking-agent && docker-compose logs -f frontend'"
+log_info "  • Logs backend:  ssh root@$SERVER_IP 'cd /opt/ai-booking-agent && docker-compose logs backend'"
+log_info "  • Logs frontend: ssh root@$SERVER_IP 'cd /opt/ai-booking-agent && docker-compose logs frontend'"
 log_info "  • Restart:       ssh root@$SERVER_IP 'cd /opt/ai-booking-agent && docker-compose restart'"
 log_info ""
+

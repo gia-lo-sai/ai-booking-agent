@@ -1,0 +1,10 @@
+# Connessione al database PostgreSQL locale su Termux
+DATABASE_URL=postgres://u0_a671@127.0.0.1:5432/booking
+
+# Porta su cui il backend ascolta (se serve)
+PORT=3000
+
+# Qualsiasi altra variabile che il tuo backend usa può essere aggiunta qui
+# Esempio:
+# JWT_SECRET=supersegreto
+# API_KEY=...
