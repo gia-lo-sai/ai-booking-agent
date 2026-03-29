@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import axios from 'axios'
+import { Analytics } from '@vercel/analytics/react'
 import './App.css'
 
 function App() {
@@ -126,6 +127,7 @@ function App() {
       <footer className="footer">
         <p>Powered by Claude AI & PostgreSQL su hcloud</p>
       </footer>
+      <Analytics />
     </div>
   )
 }
