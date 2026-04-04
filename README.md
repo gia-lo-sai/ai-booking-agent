@@ -329,8 +329,8 @@ Pull request benvenute! Per modifiche importanti, apri prima un issue.
 
 ## 💬 Supporto
 
-- Issues: https://github.com/tuo-username/ai-booking-agent/issues
-- Email: tua-email@example.com
+- Issues: https://github.com/gia-lo-sai/ai-booking-agent/issues
+- Email: mr.wolf311@proton.me 
 
 ## 🙏 Credits
 
@@ -342,4 +342,4 @@ Pull request benvenute! Per modifiche importanti, apri prima un issue.
 
 ---
 
-Sviluppato con ❤️ su Termux
+Sviluppato con ❤️ su Termux da gia-lo-sai & Antropic-claude 
