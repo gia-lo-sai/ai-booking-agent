@@ -54,7 +54,7 @@ Sistema completo di prenotazione appuntamenti con intelligenza artificiale, svil
 
 ```bash
 # Clona il repository
-git clone https://github.com/tuo-username/ai-booking-agent.git
+git clone https://github.com/gia-lo-sai/ai-booking-agent.git
 cd ai-booking-agent
 
 # Esegui setup automatico
